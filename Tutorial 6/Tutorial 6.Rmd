@@ -2,14 +2,17 @@
 title: "GGMAPs"
 author: "Nnenna Asidianya"
 date: "2/17/2022"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE, warning=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, message=F, warning=F}
 library(tidyverse)
 #install.packages("ggmap")
 library(ggmap)
@@ -20,7 +23,7 @@ library(ggmap)
 ![tutorial6](C:/Users/User/Desktop/STA304/tutorial6.png)
 https://community.rstudio.com/t/how-i-can-get-google-map-api-key-giving-error-of-api-key/43273/2   
 
-```{r}
+```{r, message=F, warning=F}
 library(ggmap)
 can <- c(left = -155, bottom = 42, right = -55, top = 80)
 get_stamenmap(can, zoom = 5, maptype = "toner-lite") %>% ggmap()
@@ -28,6 +31,21 @@ get_stamenmap(can, zoom = 5, maptype = "toner-lite") %>% ggmap()
 # crop to the area desired (outside can)
 # (can use maps.google.com, right-click, drop lat/lon markers at corners)
 ```
+
+```{r, eval=F}
+
+attr_can <- attr(can, "bb")    # save attributes from original
+can[can == "#000000"] <- "#C0C0C0"
+
+# correct class, attributes
+class(can) <- c("ggmap", "raster")
+attr(can, "bb") <- attr_can
+ggmap(can)
+
+```
+
+Lets now make a map using ggplot2
+
 ```{r}
 library(ggplot2)
 library(gridExtra)
